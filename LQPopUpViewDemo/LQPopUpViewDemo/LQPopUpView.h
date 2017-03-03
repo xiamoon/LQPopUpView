@@ -77,6 +77,15 @@ typedef void(^buttonAction) (void);
 // default 15.0
 @property (nonatomic, assign) CGFloat textFieldFontSize;
 
+// default 0x0a7af3, system alert blue
+@property (nonatomic, strong) UIColor *btnStyleDefaultTextColor;
+
+// default 0x555555, black
+@property (nonatomic, strong) UIColor *btnStyleCancelTextColor;
+
+// default 0xff4141, red
+@property (nonatomic, strong) UIColor *btnStyleDestructiveTextColor;
+
 // default when preferredStyle is LQPopUpViewStyleAlert NO, when preferredStyle is LQPopUpViewStyleActionSheet YES
 @property (nonatomic, assign) BOOL canClickBackgroundHide;
 

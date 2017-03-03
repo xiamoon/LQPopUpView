@@ -11,7 +11,6 @@
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
-
 @end
 
 @implementation ViewController
@@ -28,6 +27,7 @@
 
 - (IBAction)firstAction:(id)sender {
     LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"提示" message:@"这是用第一种初始化方法创建的弹出视图"];
+
     [popUpView addBtnWithTitle:@"取消" type:LQPopUpBtnStyleCancel handler:^{
         // do something...
     }];

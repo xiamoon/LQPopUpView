@@ -33,9 +33,6 @@
 @property (nonatomic, strong) NSMutableArray<UITextField *> *textFields;
 @property (nonatomic, strong) NSMutableArray<PopUpViewBtnModel *> *buttonModels;
 @property (nonatomic, assign) LQPopUpViewStyle popUpViewStyle;
-
-// for the third init method
-@property (nonatomic, copy) void(^actionWithIndex) (NSInteger index);
 @end
 
 #define rgb_a(r, g, b, a)       [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
@@ -94,29 +91,38 @@
         msgConf.text = message;
     }];
     
-    _actionWithIndex = action;
     //通过otherButtonTitles的数量改变“取消”按钮的位置，把“取消”按钮放在最下面
     if (!otherButtonTitles || otherButtonTitles.count == 0) {
         if (cancelButtonTitle && cancelButtonTitle.length) {
-            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:nil];
+            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
+                if (action) action(0);
+            }];
         }
     }else if (otherButtonTitles.count == 1) {
         if (cancelButtonTitle && cancelButtonTitle.length) {
-            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:nil];
+            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
+                if (action) action(0);
+            }];
         }
         NSString *btnTitle = otherButtonTitles.firstObject;
         if (btnTitle && btnTitle.length) {
-            [popUpView addBtnWithTitle:btnTitle type:LQPopUpBtnStyleDefault handler:nil];
+            [popUpView addBtnWithTitle:btnTitle type:LQPopUpBtnStyleDefault handler:^{
+                if (action) action(1);
+            }];
         }
     }else if (otherButtonTitles.count > 1) {
         for (int i = 0; i < otherButtonTitles.count; i ++) {
             NSString *btnTitle = otherButtonTitles[i];
             if (btnTitle && btnTitle.length) {
-                [popUpView addBtnWithTitle:btnTitle type:LQPopUpBtnStyleDefault handler:nil];
+                [popUpView addBtnWithTitle:btnTitle type:LQPopUpBtnStyleDefault handler:^{
+                    if (action) action(i+1);
+                }];
             }
         }
         if (cancelButtonTitle && cancelButtonTitle.length) {
-            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:nil];
+            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
+                if (action) action(0);
+            }];
         }
     }
     return popUpView;
@@ -154,6 +160,9 @@
     _canHideByClickBgView = @(0);
     _contentWidth = 265;
     _textFieldFontSize = 15.0;
+    _btnStyleDefaultTextColor = kBtnStyleDefaultTextColor;
+    _btnStyleCancelTextColor = kBtnStyleCancelTextColor;
+    _btnStyleDestructiveTextColor = kBtnStyleDestructiveTextColor;
     _textFieldHeight = kTextFieldHeight;
     _buttonHeight = kButtonHeight;
     _lineHeight = kLineHeight;
@@ -309,13 +318,13 @@
         lineLayer2.frame = CGRectMake(_contentWidth/2.0, top+_lineHeight, _lineHeight, _buttonHeight);
         [_contentView.layer addSublayer:lineLayer2];
         
-        UIButton *button1 = ((PopUpViewBtnModel *)_buttonModels.firstObject).button;
-        button1.frame = CGRectMake(0, top+_lineHeight, _contentWidth/2.0, _buttonHeight);
-        UIButton *button2 = ((PopUpViewBtnModel *)_buttonModels.lastObject).button;
-        button2.frame = CGRectMake(_contentWidth/2.0, top+_lineHeight, _contentWidth/2.0, _buttonHeight);
-        
+        for (int i = 0; i < _buttonModels.count; i ++) {
+            PopUpViewBtnModel *btnModel = _buttonModels[i];
+            UIButton *button = btnModel.button;
+            [button setTitleColor:[self colorWithBtnStyle:btnModel.btnStyle] forState:UIControlStateNormal];
+            button.frame = CGRectMake(_contentWidth/2.0*i, top+_lineHeight, _contentWidth/2.0, _buttonHeight);
+        }
         _contentView.frame = CGRectMake(10, kScreenHeight, _contentWidth, top+_lineHeight+_buttonHeight);
-        
         _contentHeight = _contentView.frame.size.height;
     }else if (_buttonModels.count == 1 || _buttonModels.count >= 3) {
         CGFloat baseTop = [self getTitleAndMsgLabelBaseHeight];
@@ -344,6 +353,7 @@
             [_contentView.layer addSublayer:lineLayer];
             
             UIButton *button = btnModel.button;
+            [button setTitleColor:[self colorWithBtnStyle:btnModel.btnStyle] forState:UIControlStateNormal];
             button.frame = CGRectMake(0, top+_lineHeight, _contentWidth, _buttonHeight);
         }
         
@@ -363,6 +373,7 @@
                 [_contentView.layer addSublayer:lineLayer];
                 
                 UIButton *button = btnModel.button;
+                [button setTitleColor:[self colorWithBtnStyle:btnModel.btnStyle] forState:UIControlStateNormal];
                 button.frame = CGRectMake(0, top+_lineHeight, _contentWidth, _buttonHeight);
                 index ++;
             }
@@ -407,6 +418,7 @@
         [_contentView.layer addSublayer:lineLayer];
         
         UIButton *button = btnModel.button;
+        [button setTitleColor:[self colorWithBtnStyle:btnModel.btnStyle] forState:UIControlStateNormal];
         button.frame = CGRectMake(0, top+_lineHeight, _contentWidth, _buttonHeight);
     }
     
@@ -421,6 +433,7 @@
     if (_hasAddCancelBtnForOnce) {
         PopUpViewBtnModel *cancelBtnModel = _buttonModels[_cancelBtnIndex];
         UIButton *button = cancelBtnModel.button;
+        [button setTitleColor:[self colorWithBtnStyle:cancelBtnModel.btnStyle] forState:UIControlStateNormal];
         CGFloat cancelBtnTop = kScreenHeight + _contentView.bounds.size.height + 10 + _buttonHeight + 10;
         button.frame = CGRectMake(10, cancelBtnTop, _contentWidth, _buttonHeight);
         button.layer.masksToBounds = YES;
@@ -470,12 +483,12 @@
 }
 
 - (UIColor *)colorWithBtnStyle:(LQPopUpBtnStyle)style {
-    if (style == LQPopUpBtnStyleCancel) {
-        return kBtnStyleCancelTextColor;
+    if (style == LQPopUpBtnStyleDefault) {
+        return _btnStyleDefaultTextColor;
+    }else if (style == LQPopUpBtnStyleCancel) {
+        return _btnStyleCancelTextColor;
     }else if (style == LQPopUpBtnStyleDestructive) {
-        return kBtnStyleDestructiveTextColor;
-    }else if (style == LQPopUpBtnStyleDefault) {
-        return kBtnStyleDefaultTextColor;
+        return _btnStyleDestructiveTextColor;
     }
     return nil;
 }
@@ -525,9 +538,6 @@
         [self _configureAndLayoutMsgLabel];
         [self _layoutTextFields];
         [self _layoutButtons];
-        if (_canClickBackgroundHide) {
-            
-        }
     }
 }
 
@@ -594,18 +604,13 @@
     
     PopUpViewBtnModel *model = _buttonModels[index];
     buttonAction handler = model.actionHandler;
-    if (handler) {
-        handler();
-    }else if (_actionWithIndex) {
-        _actionWithIndex(index);
-    }
+    if (handler) handler();
     [self _hide];
 }
 
 - (void)clickBackGroundHide:(UITapGestureRecognizer *)tap {
     if (_canHideByClickBgView.integerValue == 0) {// 用户没有设置过 self.canClickBackgroundHide 的值，按默认处理
         if (_popUpViewStyle == LQPopUpViewStyleAlert) {
-            
         }else if (_popUpViewStyle == LQPopUpViewStyleActionSheet) {
             [self _hide];
         }
