@@ -17,7 +17,7 @@
 @interface PopUpViewBtnModel : NSObject
 @property (nonatomic, strong) UIButton *button;
 @property (nonatomic, assign) LQPopUpBtnStyle btnStyle;
-@property (nonatomic, assign) buttonAction actionHandler;
+@property (nonatomic, copy) buttonAction actionHandler;
 @end
 
 @implementation PopUpViewBtnModel
