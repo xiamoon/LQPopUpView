@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0N3-kb-SLy">
+                                <rect key="frame" x="96" y="40" width="182" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="182" id="HR0-YW-ToE"/>
+                                    <constraint firstAttribute="height" constant="28" id="rtZ-w5-mwo"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Alert"/>
+                                    <segment title="ActionSheet"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentControlAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="yUz-BG-BeJ"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7T-yq-Xs9">
+                                <rect key="frame" x="106" y="178" width="163" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="163" id="RCc-tb-a6i"/>
+                                    <constraint firstAttribute="height" constant="30" id="fua-yD-FoL"/>
+                                </constraints>
+                                <state key="normal" title="Second init method"/>
+                                <connections>
+                                    <action selector="secondAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bt7-b5-hKd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="es2-pb-EdB">
+                                <rect key="frame" x="106" y="248" width="163" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="163" id="fEU-ML-KtS"/>
+                                    <constraint firstAttribute="height" constant="30" id="nmb-hi-8hu"/>
+                                </constraints>
+                                <state key="normal" title="Third init method"/>
+                                <connections>
+                                    <action selector="thirdAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wME-I5-Wf6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jjy-8p-BNZ">
+                                <rect key="frame" x="106" y="318" width="163" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="10R-cs-mss"/>
+                                    <constraint firstAttribute="width" constant="163" id="zaF-fc-voD"/>
+                                </constraints>
+                                <state key="normal" title="WithTextField"/>
+                                <connections>
+                                    <action selector="TextField:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BU9-0X-3dl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7O-jM-ppm">
+                                <rect key="frame" x="106" y="108" width="163" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="163" id="NdN-zS-zJJ"/>
+                                    <constraint firstAttribute="height" constant="30" id="Wqa-q0-9W8"/>
+                                </constraints>
+                                <state key="normal" title="First init method"/>
+                                <connections>
+                                    <action selector="firstAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MsS-ub-PaR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="es2-pb-EdB" firstAttribute="top" secondItem="i7T-yq-Xs9" secondAttribute="bottom" constant="40" id="ASh-nu-59H"/>
+                            <constraint firstItem="es2-pb-EdB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CGG-Cj-J3e"/>
+                            <constraint firstItem="i7T-yq-Xs9" firstAttribute="top" secondItem="s7O-jM-ppm" secondAttribute="bottom" constant="40" id="Gtf-m7-G2G"/>
+                            <constraint firstItem="s7O-jM-ppm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hyr-me-mnv"/>
+                            <constraint firstItem="jjy-8p-BNZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Pjf-ld-PR3"/>
+                            <constraint firstItem="0N3-kb-SLy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SXE-Xi-gCb"/>
+                            <constraint firstItem="i7T-yq-Xs9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mYo-Ae-iNI"/>
+                            <constraint firstItem="0N3-kb-SLy" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="sXo-1U-eua"/>
+                            <constraint firstItem="jjy-8p-BNZ" firstAttribute="top" secondItem="es2-pb-EdB" secondAttribute="bottom" constant="40" id="vie-nH-ofE"/>
+                            <constraint firstItem="s7O-jM-ppm" firstAttribute="top" secondItem="0N3-kb-SLy" secondAttribute="bottom" constant="40" id="y0l-ZO-rjn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="segmentControl" destination="0N3-kb-SLy" id="Mwc-R8-xl3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
+        </scene>
+    </scenes>
+</document>
