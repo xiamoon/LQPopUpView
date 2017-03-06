@@ -55,7 +55,7 @@
 @implementation LQPopUpView {
     CGFloat _contentWidth;
     CGFloat _contentHeight;
-        
+    
     NSInteger _cancelBtnIndex;// 由于actionSheet的取消按钮需要单独添加，所以这里记录其下标
     BOOL _hasAddCancelBtnForOnce;// 由于actionSheet样式的特殊性，其“取消”按钮只允许添加一次
     
@@ -91,26 +91,7 @@
         msgConf.text = message;
     }];
     
-    //通过otherButtonTitles的数量改变“取消”按钮的位置，把“取消”按钮放在最下面
-    if (!otherButtonTitles || otherButtonTitles.count == 0) {
-        if (cancelButtonTitle && cancelButtonTitle.length) {
-            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
-                if (action) action(0);
-            }];
-        }
-    }else if (otherButtonTitles.count == 1) {
-        if (cancelButtonTitle && cancelButtonTitle.length) {
-            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
-                if (action) action(0);
-            }];
-        }
-        NSString *btnTitle = otherButtonTitles.firstObject;
-        if (btnTitle && btnTitle.length) {
-            [popUpView addBtnWithTitle:btnTitle type:LQPopUpBtnStyleDefault handler:^{
-                if (action) action(1);
-            }];
-        }
-    }else if (otherButtonTitles.count > 1) {
+    if (otherButtonTitles && otherButtonTitles.count) {
         for (int i = 0; i < otherButtonTitles.count; i ++) {
             NSString *btnTitle = otherButtonTitles[i];
             if (btnTitle && btnTitle.length) {
@@ -119,11 +100,12 @@
                 }];
             }
         }
-        if (cancelButtonTitle && cancelButtonTitle.length) {
-            [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
-                if (action) action(0);
-            }];
-        }
+    }
+    
+    if (cancelButtonTitle && cancelButtonTitle.length) {
+        [popUpView addBtnWithTitle:cancelButtonTitle type:LQPopUpBtnStyleCancel handler:^{
+            if (action) action(0);
+        }];
     }
     return popUpView;
 }
@@ -513,22 +495,22 @@
         [view addSubview:self];
         [UIView animateWithDuration:0.6 delay:0.0 usingSpringWithDamping:0.85 initialSpringVelocity:0.5
                             options:UIViewAnimationOptionCurveEaseIn animations:^{
-            CGRect rect = _contentView.frame;
-            CGFloat offset = _hasAddCancelBtnForOnce ? _buttonHeight+10 : 0;
-            rect.origin.y = kScreenHeight - rect.size.height - 10 - offset;
-            _contentView.frame = rect;
-            //取消按钮的动画
-            
-            if (_hasAddCancelBtnForOnce) {
-                PopUpViewBtnModel *cancelBtnModel = _buttonModels[_cancelBtnIndex];
-                UIButton *button = cancelBtnModel.button;
-                CGRect rect = button.frame;
-                rect.origin.y = kScreenHeight - rect.size.height - 10;
-                button.frame = rect;
-            }
-            
-            self.alpha = 1.0;
-        } completion:nil];
+                                CGRect rect = _contentView.frame;
+                                CGFloat offset = _hasAddCancelBtnForOnce ? _buttonHeight+10 : 0;
+                                rect.origin.y = kScreenHeight - rect.size.height - 10 - offset;
+                                _contentView.frame = rect;
+                                
+                                //取消按钮的动画
+                                if (_hasAddCancelBtnForOnce) {
+                                    PopUpViewBtnModel *cancelBtnModel = _buttonModels[_cancelBtnIndex];
+                                    UIButton *button = cancelBtnModel.button;
+                                    CGRect rect = button.frame;
+                                    rect.origin.y = kScreenHeight - rect.size.height - 10;
+                                    button.frame = rect;
+                                }
+                                
+                                self.alpha = 1.0;
+                            } completion:nil];
     }
 }
 
