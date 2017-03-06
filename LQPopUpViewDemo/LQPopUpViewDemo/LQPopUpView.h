@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, LQPopUpViewStyle) {
 // default 0x000000
 @property (nonatomic, strong) UIColor *textColor;
 
-// default 20
+// default 15
 @property (nonatomic, assign) CGFloat top;
 
 // default 0

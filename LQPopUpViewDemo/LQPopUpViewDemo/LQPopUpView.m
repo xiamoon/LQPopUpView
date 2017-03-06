@@ -23,7 +23,7 @@
 @implementation PopUpViewBtnModel
 @end
 
-@interface LQPopUpView ()
+@interface LQPopUpView () <UIGestureRecognizerDelegate>
 @property (nonatomic, weak) UIView *contentView;
 @property (nonatomic, weak) UILabel *titleLabel;
 @property (nonatomic, weak) UILabel *messageLabel;
@@ -70,6 +70,7 @@
         self.alpha = 0;
         self.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickBackGroundHide:)];
+        tap.delegate = self;
         [self addGestureRecognizer:tap];
         [self _initializeUI];
     }
@@ -154,7 +155,7 @@
     _title_Configuration = [TitleConfiguration new];
     _title_Configuration.fontSize = 18.0;
     _title_Configuration.textColor = kColorHex(0x000000, 1.0);
-    _title_Configuration.top = 20;
+    _title_Configuration.top = 15;
     
     _msg_configuration = [MessageConfiguration new];
     _msg_configuration.fontSize = 16.0;
@@ -620,6 +621,15 @@
     }else {
         [sender setBackgroundColor:[UIColor clearColor]];
     }
+}
+
+#pragma mark - /---------------------- UIGestureRecognizerDelegate ----------------------/
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    CGPoint point = [touch locationInView:self];
+    if (CGRectContainsPoint(_contentView.frame, point)) {
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - /---------------------- Setters ----------------------/
