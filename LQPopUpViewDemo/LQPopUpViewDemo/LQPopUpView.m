@@ -245,6 +245,13 @@
 }
 
 - (void)_layoutTextFields {
+    if (!_textFields.count) return;
+    if (_popUpViewStyle == LQPopUpViewStyleAlert) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboard_willShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboard_willHide:) name:UIKeyboardWillHideNotification object:nil];
+    }
+    
+    _textFieldArray = _textFields.copy;
     CGFloat tfPadding = 20;
     UIView *textFieldBgView = [UIView new];
     textFieldBgView.layer.masksToBounds = YES;
@@ -618,6 +625,41 @@
 #pragma mark - /---------------------- Setters ----------------------/
 -(void)setCanClickBackgroundHide:(BOOL)canClickBackgroundHide {
     _canHideByClickBgView = canClickBackgroundHide ? @(1) : @(2);
+}
+
+#pragma mark - /---------------------- notifications ----------------------/
+-(void)keyboard_willShow:(NSNotification *)ntf {
+    NSDictionary * userInfo = [ntf userInfo];
+    CGFloat duration = [userInfo[@"UIKeyboardAnimationDurationUserInfoKey"] floatValue];
+    CGRect kbRect = [userInfo[@"UIKeyboardBoundsUserInfoKey"] CGRectValue];
+    CGFloat kb_minY = kScreenHeight - CGRectGetHeight(kbRect);
+    
+    CGRect beginUserInfo = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey]   CGRectValue];
+    if (beginUserInfo.size.height <=0) {//!!搜狗输入法弹出时会发出三次UIKeyboardWillShowNotification的通知,和官方输入法相比,有效的一次为UIKeyboardFrameBeginUserInfoKey.size.height都大于零时.
+        return;
+    }
+    
+    CGFloat contentView_maxY = CGRectGetMaxY(_contentView.frame)+(5); //+5让输入框再高于键盘5的高度
+    CGFloat offset = contentView_maxY - kb_minY;
+    if (offset > 0) {
+        [UIView animateWithDuration:duration animations:^{
+            CGRect rect = _contentView.frame;
+            rect.origin.y -= offset;
+            _contentView.frame = rect;
+        }];
+    }
+}
+
+-(void)keyboard_willHide:(NSNotification *)ntf {
+    NSDictionary * userInfo = [ntf userInfo];
+    CGFloat duration = [userInfo[@"UIKeyboardAnimationDurationUserInfoKey"] floatValue];
+    [UIView animateWithDuration:duration animations:^{
+        _contentView.center = self.center;
+    }];
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

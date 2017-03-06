@@ -80,6 +80,7 @@
 
 - (IBAction)TextField:(UIButton *)sender {
     LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"提示" message:@"在做账号密码登录时，可以选择这种方式"];
+    __weak typeof(LQPopUpView) *weakPopUpView = popUpView;
     
     [popUpView addTextFieldWithPlaceholder:@"请输入您的账号/手机号/邮箱" secureEntry:NO];
     [popUpView addTextFieldWithPlaceholder:@"请输入您的密码" secureEntry:YES];
@@ -91,8 +92,11 @@
     
     [popUpView addBtnWithTitle:@"确定" type:LQPopUpBtnStyleDefault handler:^{
         // do something...
+        for (int i = 0; i < weakPopUpView.textFieldArray.count; i ++) {
+            UITextField *tf = weakPopUpView.textFieldArray[i];
+            NSLog(@"第%d个输入框的文字是：%@", i, tf.text);
+        }
     }];
-    
     [popUpView showInView:self.view preferredStyle:_segmentControl.selectedSegmentIndex];
 }
 

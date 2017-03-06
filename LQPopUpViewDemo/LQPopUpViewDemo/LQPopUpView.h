@@ -63,6 +63,9 @@ typedef void(^buttonAction) (void);
 
 @interface LQPopUpView : UIView
 
+// you can get textField's text from this property
+@property (nonatomic, strong, readonly) NSArray<UITextField *> *textFieldArray;
+
 // customize property
 
 // default 50.0
