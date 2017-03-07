@@ -176,6 +176,7 @@
 
 - (void)_setUpTitleLabel {
     UILabel *titleLabel = [UILabel new];
+    titleLabel.numberOfLines = 0;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [_contentView addSubview:titleLabel];
     _titleLabel = titleLabel;
@@ -223,12 +224,15 @@
 
 - (void)_configureAndLayoutTitleLabel {
     if (_title_Configuration) {
+        CGFloat left_padding = 25;
+        CGFloat labelWidth = _contentWidth-left_padding-left_padding;
         _titleLabel.text = _title_Configuration.text;
         _titleLabel.textColor = _title_Configuration.textColor;
         _titleLabel.font = [UIFont systemFontOfSize:_title_Configuration.fontSize];
         [self fixTopAndBottomValues];
         CGFloat top = _title_Configuration.top;
-        _titleLabel.frame = CGRectMake(30, top, _contentWidth-30-30, _title_Configuration.fontSize+2);
+        CGSize titleSize = [_titleLabel.text boundingRectWithSize:CGSizeMake(labelWidth, 250) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : _titleLabel.font} context:nil].size;
+        _titleLabel.frame = CGRectMake(left_padding, top, labelWidth, titleSize.height);
     }
 }
 
@@ -242,7 +246,7 @@
         [self fixTopAndBottomValues];
         CGFloat top = CGRectGetMaxY(_titleLabel.frame) + _title_Configuration.bottom + _msg_configuration.top;
         CGSize msgSize = [_messageLabel.text boundingRectWithSize:CGSizeMake(labelWidth, 250) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : _messageLabel.font} context:nil].size;
-        _messageLabel.frame = CGRectMake(25, top, labelWidth, msgSize.height);
+        _messageLabel.frame = CGRectMake(left_padding, top, labelWidth, msgSize.height);
     }
 }
 
@@ -448,8 +452,8 @@
         }
     }else {
         if (_msg_configuration) {
-            if (_msg_configuration.top < 20.0) {
-                _msg_configuration.top = 20.0;
+            if (_msg_configuration.top < 15.0) {
+                _msg_configuration.top = 15.0;
             }
             if (_msg_configuration.bottom == 0) {
                 _msg_configuration.bottom = 15.0;
