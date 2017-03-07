@@ -82,9 +82,9 @@
     LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"提示" message:@"在做账号密码登录时，可以选择这种方式"];
     __weak typeof(LQPopUpView) *weakPopUpView = popUpView;
     
-    [popUpView addTextFieldWithPlaceholder:@"请输入您的账号/手机号/邮箱" secureEntry:NO];
-    [popUpView addTextFieldWithPlaceholder:@"请输入您的密码" secureEntry:YES];
-    [popUpView addTextFieldWithPlaceholder:@"请再次确认您的密码" secureEntry:YES];
+    [popUpView addTextFieldWithPlaceholder:@"请输入您的账号/手机号/邮箱" text:nil secureEntry:NO];
+    [popUpView addTextFieldWithPlaceholder:@"请输入您的密码" text:nil secureEntry:YES];
+    [popUpView addTextFieldWithPlaceholder:@"请再次确认您的密码" text:nil secureEntry:YES];
     
     [popUpView addBtnWithTitle:@"取消" type:LQPopUpBtnStyleCancel handler:^{
         // do something...

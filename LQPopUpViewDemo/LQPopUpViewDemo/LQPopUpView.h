@@ -100,7 +100,7 @@ typedef void(^buttonAction) (void);
 -(instancetype) initWithTitleConfiguration:(void (^)(TitleConfiguration *configuration))titleConfiguration messageConfiguration:(void (^)(MessageConfiguration *configuration))msgConfiguration;
 
 
-- (void) addTextFieldWithPlaceholder:(NSString *)placeholder secureEntry:(BOOL)secureEntry;
+- (void) addTextFieldWithPlaceholder:(NSString *)placeholder text:(NSString *)text secureEntry:(BOOL)secureEntry;
 - (void) addBtnWithTitle:(NSString *)title type:(LQPopUpBtnStyle)style handler:(buttonAction)handler;
 
 //show

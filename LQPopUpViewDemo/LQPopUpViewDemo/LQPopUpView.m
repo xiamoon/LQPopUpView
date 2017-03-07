@@ -209,8 +209,9 @@
 }
 
 
--(void)addTextFieldWithPlaceholder:(NSString *)placeholder secureEntry:(BOOL)secureEntry {
+- (void) addTextFieldWithPlaceholder:(NSString *)placeholder text:(NSString *)text secureEntry:(BOOL)secureEntry {
     UITextField *tf = [[UITextField alloc] init];
+    tf.text = text;
     tf.placeholder = placeholder;
     tf.textColor = kColorHex(0x333333, 1.0);
     tf.font = [UIFont systemFontOfSize:_textFieldFontSize];
