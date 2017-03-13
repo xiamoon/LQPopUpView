@@ -19,7 +19,7 @@ if you have some questions or some places wrong in my project, welcome to contac
 
 ### create method 1:
 
-```
+```Objective-C
 - (IBAction)firstAction:(id)sender {
 LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"prompt" message:@"This is the pop-up view created with the first initialization method"];
 
@@ -37,7 +37,7 @@ LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"prompt" message:@"
 
 ### create method 2:
 
-```
+```Objective-C
 - (IBAction)secondAction:(id)sender {
 LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"prompt" message:@"This is the second way to create, but also a quick way to create, there is not much separation of the code, it is particularly convenient to use, and you can add any button again" cancelButtonTitle:@"取消" otherButtonTitles:@[@"One", @"Two", @"Three"] actionWithIndex:^(NSInteger index) {
 // do something...
@@ -53,7 +53,7 @@ LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitle:@"prompt" message:@"
 
 ### create method 3:
 
-```
+```Objective-C
 - (IBAction)thirdAction:(id)sender {
 LQPopUpView *popUpView = [[LQPopUpView alloc] initWithTitleConfiguration:^(TitleConfiguration *configuration) {
 configuration.text = @"prompt";
