@@ -1,8 +1,5 @@
 # LQPopUpView
 
-<P align="center">
-![enter image description here](https://img.shields.io/badge/platform-IOS%207.0%2B-ff69b5618733984.svg)
-
 ## Introduction
 
 this is a convenient way for you to create a popUpView in your iOS project instead of the system UIAlertView or UIActionSheet. 
